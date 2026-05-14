@@ -5,6 +5,8 @@ import morgan from "morgan";
 
 import { env } from "./config/env";
 import { connectDB } from "./config/db";
+import redis from "./redis/redisClients";
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -14,9 +16,13 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.get("/health", (req, res) => {
+  const redisHealth = redis.status;
+  const mongoStatus = mongoose.connection.readyState;
   res.status(200).json({
     status: "ok",
     enviroment: env.NODE_ENV,
+    redis: redisHealth,
+    mongo: mongoStatus === 1 ? "connected" : "disconnected",
   });
 });
 
