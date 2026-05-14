@@ -41,8 +41,9 @@ startServer();
 // graceful shutdown
 process.on("SIGINT", async () => {
   console.log("shutting down server gracefully");
-  await import("mongoose").then((mongoose) =>
-    mongoose.default.connection.close(),
-  );
+  // close database connection
+  await mongoose.connection.close();
+  // use quit() instead of disconnect() -> all pending commands processed before closing connection.
+  await redis.quit();
   process.exit(0);
 });

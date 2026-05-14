@@ -17,3 +17,6 @@ setTimeout(() => {
     }),
   );
 }, 2000);
+
+// Command to run test file
+// npx ts-node src/redis/testPubSub.ts
