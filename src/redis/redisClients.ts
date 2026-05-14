@@ -27,3 +27,10 @@ export default redis;
 
 // command to run redis server by docker
 // docker run -d -p 6379:6379 --name redis redis
+
+// | Value | Meaning       |
+// | ----- | ------------- |
+// | 0     | disconnected  |
+// | 1     | connected     |
+// | 2     | connecting    |
+// | 3     | disconnecting |
