@@ -7,6 +7,8 @@ import { env } from "./config/env";
 import { connectDB } from "./config/db";
 import redis from "./redis/redisClients";
 import mongoose from "mongoose";
+// require("./rabbitmq/producer");
+require("./rabbitmq/consumer");
 
 const app = express();
 
