@@ -1,4 +1,4 @@
-import amqp, { Options } from "amqplib";
+import { Options } from "amqplib";
 import { getProducer } from "./connection";
 
 export const publishToQueue = async function (
