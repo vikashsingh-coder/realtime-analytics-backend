@@ -1,21 +1,28 @@
-import amqp from "amqplib";
+import amqp, { Options } from "amqplib";
+import { getProducer } from "./connection";
 import { env } from "../config/env";
 
-async function sendMessage() {
-  const connection = await amqp.connect(env.RABBITMQ_URL);
-  const channel = await connection.createChannel();
-  const queue = "task_queue";
-
+export const publishToQueue = async function (
+  queue: string,
+  message: string,
+  options?: Options.Publish,
+): Promise<void> {
+  const channel = getProducer();
   await channel.assertQueue(queue, { durable: true });
-  const message = "Hello, RabbitMQ!";
 
-  channel.sendToQueue(queue, Buffer.from(message), { persistent: true });
-  console.log(`Sent: ${message}`);
-
-  setTimeout(() => {
-    connection.close();
-    process.exit(0);
-  }, 500);
-}
-
-sendMessage().catch(console.error);
+  return new Promise((resolve, reject) => {
+    channel.sendToQueue(
+      queue,
+      Buffer.from(message),
+      { persistent: true, ...options },
+      (err) => {
+        if (err) {
+          console.error("message publish failed:", err.message);
+          reject(err);
+        } else {
+          resolve();
+        }
+      },
+    );
+  });
+};
