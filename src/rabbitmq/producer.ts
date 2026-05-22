@@ -1,6 +1,5 @@
 import amqp, { Options } from "amqplib";
 import { getProducer } from "./connection";
-import { env } from "../config/env";
 
 export const publishToQueue = async function (
   queue: string,
