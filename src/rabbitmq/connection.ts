@@ -1,4 +1,5 @@
 import amqp, { Channel, ConfirmChannel, ChannelModel } from "amqplib";
+import { setupTopology } from "./topology";
 import { env } from "../config/env";
 
 let connection: ChannelModel;
@@ -42,9 +43,18 @@ export const consumerChannel = async (): Promise<Channel> => {
 };
 
 export const closeRabbitMQ = async (): Promise<void> => {
-  await producerChannel.close();
+  // await producerChannel.close();
 
-  await connection.close();
+  await setupTopology(producerChannel);
+  // await connection.close();
+  await producerChannel.close();
 
   console.log("RabbitMQ connection closed");
 };
+
+// async setup(model) {
+//   console.log("RabbitMQ recovery sutup running....");
+//   const ch = await model.createChannel();
+//   await setupTopology(ch);
+//   await ch.close();
+// }
