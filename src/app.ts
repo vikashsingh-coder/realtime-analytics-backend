@@ -7,10 +7,12 @@ import { env } from "./config/env";
 import { connectDB } from "./config/db";
 import redis from "./redis/redisClients";
 import mongoose from "mongoose";
+import { intializeSocketServer } from "./websocket/socketServer";
 // require("./rabbitmq/producer");
 require("./rabbitmq/consumer");
 
 const app = express();
+const server = intializeSocketServer(app);
 
 app.use(cors());
 app.use(helmet());
@@ -33,7 +35,7 @@ const startServer = async () => {
   await connectDB();
 
   // start the server
-  app.listen(env.PORT, () => {
+  server.listen(env.PORT, () => {
     console.log(`Server is running on port ${env.PORT}`);
   });
 };
