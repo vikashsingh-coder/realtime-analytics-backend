@@ -8,6 +8,7 @@ import { connectDB } from "./config/db";
 import redis from "./redis/redisClients";
 import mongoose from "mongoose";
 import { intializeSocketServer } from "./websocket/socketServer";
+import "./websocket/redisSocketSubscriber";
 // require("./rabbitmq/producer");
 require("./rabbitmq/consumer");
 
