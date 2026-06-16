@@ -37,7 +37,7 @@ const startServer = async () => {
 
   // start the server
   server.listen(env.PORT, () => {
-    console.log(`Server is running on port ${env.PORT}`);
+    console.log(`Worker ${process.pid} started on port ${env.PORT}`);
   });
 };
 
